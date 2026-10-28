@@ -1,0 +1,297 @@
+[
+  {
+    "case_id": "C001",
+    "category": "VLAN",
+    "symptom": "PC gets an IP address but cannot reach the server.",
+    "topology_notes": "PC1 is connected to Switch1 on Fa0/10 and should belong to VLAN 10.",
+    "show_commands_output": "show vlan brief\nVLAN 10: Fa0/1, Fa0/2\nVLAN 20: Fa0/10",
+    "expected_vlan": "10",
+    "actual_vlan": "20",
+    "known_correct_answer": "Wrong VLAN assigned to the switch port."
+  },
+  {
+    "case_id": "C002",
+    "category": "DHCP",
+    "symptom": "PC receives a DHCP configuration but cannot communicate outside its LAN.",
+    "topology_notes": "Router1 provides DHCP for the 192.168.10.0/24 LAN.",
+    "show_commands_output": "show ip dhcp pool\nNetwork: 192.168.10.0/24\nDefault gateway: 192.168.20.1",
+    "expected_network": "192.168.10.0/24",
+    "dhcp_gateway": "192.168.20.1",
+    "known_correct_answer": "DHCP pool has an incorrect default gateway."
+  },
+  {
+    "case_id": "C003",
+    "category": "ROUTING",
+    "symptom": "PC can reach its gateway but cannot reach the remote network.",
+    "topology_notes": "Router1 must reach the remote 192.168.30.0/24 network through Router2.",
+    "show_commands_output": "show ip route\nC 192.168.10.0/24 is directly connected\nNo route for 192.168.30.0/24",
+    "expected_route": "192.168.30.0/24",
+    "known_correct_answer": "Required route to the remote network is missing."
+  },
+  {
+    "case_id": "C004",
+    "category": "INTERFACE",
+    "symptom": "PC cannot communicate with the router.",
+    "topology_notes": "PC1 connects directly to Router1 GigabitEthernet0/0.",
+    "show_commands_output": "show ip interface brief\nGigabitEthernet0/0 192.168.10.1 administratively down down",
+    "known_correct_answer": "Router interface is administratively down."
+  },
+  {
+    "case_id": "C005",
+    "category": "GATEWAY",
+    "symptom": "PC has an IP address but cannot communicate outside its local network.",
+    "topology_notes": "PC1 uses Router1 as its default gateway.",
+    "show_commands_output": "PC IP: 192.168.10.20\nSubnet Mask: 255.255.255.0\nDefault Gateway: 192.168.20.1",
+    "known_correct_answer": "Default gateway is outside the PC subnet."
+  },
+
+  {
+    "case_id": "C006",
+    "category": "VLAN",
+    "symptom": "Devices cannot communicate because the required VLAN is not present on the switch.",
+    "topology_notes": "PC1 should connect to VLAN 30.",
+    "show_commands_output": "show vlan brief\nVLAN 10: Fa0/1, Fa0/2\nVLAN 20: Fa0/3, Fa0/4\nVLAN 30: not present",
+    "expected_vlan": "30",
+    "actual_vlan": null,
+    "known_correct_answer": "Required VLAN is missing from the switch."
+  },
+  {
+    "case_id": "C007",
+    "category": "VLAN",
+    "symptom": "A trunk link is not carrying VLAN traffic between switches.",
+    "topology_notes": "Fa0/24 connects Switch1 and Switch2 and should operate as a trunk.",
+    "show_commands_output": "show interfaces fa0/24 switchport\nAdministrative Mode: static access\nOperational Mode: static access",
+    "known_correct_answer": "The switch-to-switch port is configured as an access port instead of a trunk."
+  },
+  {
+    "case_id": "C008",
+    "category": "VLAN",
+    "symptom": "Only some VLANs can communicate across the trunk.",
+    "topology_notes": "The trunk should allow VLANs 10, 20 and 30.",
+    "show_commands_output": "show interfaces trunk\nPort Fa0/24\nAllowed VLANs: 10,20",
+    "known_correct_answer": "VLAN 30 is missing from the trunk allowed VLAN list."
+  },
+  {
+    "case_id": "C009",
+    "category": "VLAN",
+    "symptom": "Devices on a trunk are placed into the wrong VLAN.",
+    "topology_notes": "The network uses VLAN 99 as the native VLAN.",
+    "show_commands_output": "show interfaces trunk\nPort Fa0/24\nNative VLAN: 1",
+    "expected_native_vlan": "99",
+    "actual_native_vlan": "1",
+    "known_correct_answer": "Native VLAN mismatch."
+  },
+
+  {
+    "case_id": "C010",
+    "category": "DHCP",
+    "symptom": "PC receives an address from the wrong network.",
+    "topology_notes": "The LAN should use the 192.168.10.0/24 network.",
+    "show_commands_output": "show ip dhcp pool\nNetwork: 192.168.20.0/24",
+    "expected_network": "192.168.10.0/24",
+    "dhcp_network": "192.168.20.0/24",
+    "known_correct_answer": "DHCP pool is configured for the wrong network."
+  },
+  {
+    "case_id": "C011",
+    "category": "DHCP",
+    "symptom": "Clients cannot obtain IP addresses from DHCP.",
+    "topology_notes": "Router1 should provide DHCP for the LAN.",
+    "show_commands_output": "show ip dhcp pool\nNo DHCP pools configured",
+    "known_correct_answer": "DHCP pool is missing."
+  },
+  {
+    "case_id": "C012",
+    "category": "DHCP",
+    "symptom": "DHCP clients receive addresses that should be reserved for infrastructure.",
+    "topology_notes": "Addresses 192.168.10.1 through 192.168.10.10 must be excluded.",
+    "show_commands_output": "show running-config | include excluded-address\nip dhcp excluded-address 192.168.10.1 192.168.10.5",
+    "expected_excluded_range": "192.168.10.1-192.168.10.10",
+    "known_correct_answer": "DHCP excluded-address range is incomplete."
+  },
+  {
+    "case_id": "C013",
+    "category": "DHCP",
+    "symptom": "PC cannot obtain an IP address from the DHCP server.",
+    "topology_notes": "DHCP server is located at 192.168.10.5.",
+    "show_commands_output": "show ip interface brief\nGigabitEthernet0/0 192.168.10.1 up up\nping 192.168.10.5\nDestination host unreachable",
+    "known_correct_answer": "DHCP server is unreachable."
+  },
+
+  {
+    "case_id": "C014",
+    "category": "ROUTING",
+    "symptom": "Traffic to the remote network is sent to the wrong router.",
+    "topology_notes": "Remote traffic should use next hop 10.0.0.2.",
+    "show_commands_output": "show ip route\nS 192.168.30.0/24 [1/0] via 10.0.0.3",
+    "expected_next_hop": "10.0.0.2",
+    "actual_next_hop": "10.0.0.3",
+    "known_correct_answer": "Static route has an incorrect next hop."
+  },
+  {
+    "case_id": "C015",
+    "category": "ROUTING",
+    "symptom": "Router sends traffic to the wrong destination network.",
+    "topology_notes": "The required remote network is 192.168.30.0/24.",
+    "show_commands_output": "show ip route\nS 192.168.40.0/24 via 10.0.0.2",
+    "expected_route": "192.168.30.0/24",
+    "actual_route": "192.168.40.0/24",
+    "known_correct_answer": "Route is configured for the wrong destination network."
+  },
+  {
+    "case_id": "C016",
+    "category": "ROUTING",
+    "symptom": "Router cannot reach unknown remote networks.",
+    "topology_notes": "The router should have a default route through 10.0.0.2.",
+    "show_commands_output": "show ip route\nC 192.168.10.0/24 is directly connected\nNo gateway of last resort",
+    "known_correct_answer": "Default route is missing."
+  },
+  {
+    "case_id": "C017",
+    "category": "ROUTING",
+    "symptom": "Remote routes exist but traffic cannot leave through the routing interface.",
+    "topology_notes": "GigabitEthernet0/1 connects Router1 to Router2.",
+    "show_commands_output": "show ip interface brief\nGigabitEthernet0/1 10.0.0.1 administratively down down",
+    "known_correct_answer": "Routing interface is unavailable because it is administratively down."
+  },
+
+  {
+    "case_id": "C018",
+    "category": "DNS",
+    "symptom": "PC can access websites by IP address but not by domain name.",
+    "topology_notes": "The network DNS server is 8.8.8.8.",
+    "show_commands_output": "ipconfig /all\nDNS Servers: 192.168.10.99",
+    "expected_dns": "8.8.8.8",
+    "actual_dns": "192.168.10.99",
+    "known_correct_answer": "PC is configured with the wrong DNS server."
+  },
+  {
+    "case_id": "C019",
+    "category": "DNS",
+    "symptom": "DNS queries fail even though network connectivity works.",
+    "topology_notes": "DNS server is located at 192.168.10.53.",
+    "show_commands_output": "ping 192.168.10.53\nDestination host unreachable",
+    "dns_server": "192.168.10.53",
+    "known_correct_answer": "DNS server is unreachable."
+  },
+  {
+    "case_id": "C020",
+    "category": "DNS",
+    "symptom": "Clients receive incorrect DNS configuration from DHCP.",
+    "topology_notes": "DHCP should provide DNS server 192.168.10.53.",
+    "show_commands_output": "show running-config | section dhcp\n dns-server 192.168.20.53",
+    "expected_dns": "192.168.10.53",
+    "actual_dns": "192.168.20.53",
+    "known_correct_answer": "DHCP provides an incorrect DNS server address."
+  },
+  {
+    "case_id": "C021",
+    "category": "DNS",
+    "symptom": "PC has network connectivity but cannot resolve example.com.",
+    "topology_notes": "DNS service should resolve domain names.",
+    "show_commands_output": "ping 8.8.8.8\nReply received\nnslookup example.com\nDNS request timed out",
+    "known_correct_answer": "DNS name resolution is failing."
+  },
+
+  {
+    "case_id": "C022",
+    "category": "ACL",
+    "symptom": "PC cannot ping the server although routing is working.",
+    "topology_notes": "ICMP traffic from 192.168.10.0/24 should be permitted.",
+    "show_commands_output": "show access-lists\naccess-list 100 deny icmp 192.168.10.0 0.0.0.255 any",
+    "known_correct_answer": "ACL blocks ICMP traffic."
+  },
+  {
+    "case_id": "C023",
+    "category": "ACL",
+    "symptom": "Users cannot access the web server over HTTP.",
+    "topology_notes": "HTTP traffic to the web server should be permitted.",
+    "show_commands_output": "show access-lists\naccess-list 101 deny tcp any host 192.168.30.10 eq 80",
+    "known_correct_answer": "ACL blocks HTTP traffic."
+  },
+  {
+    "case_id": "C024",
+    "category": "ACL",
+    "symptom": "Correct traffic is being blocked even though the ACL rules appear correct.",
+    "topology_notes": "The ACL should be applied only to the WAN interface.",
+    "show_commands_output": "show ip interface GigabitEthernet0/0\nInbound access list is 101",
+    "expected_acl_interface": "GigabitEthernet0/1",
+    "actual_acl_interface": "GigabitEthernet0/0",
+    "known_correct_answer": "ACL is applied to the wrong interface."
+  },
+  {
+    "case_id": "C025",
+    "category": "ACL",
+    "symptom": "Traffic is blocked even though the ACL contains a permit rule.",
+    "topology_notes": "ACL 110 should permit traffic entering the LAN interface.",
+    "show_commands_output": "show ip interface GigabitEthernet0/1\nOutgoing access list is 110",
+    "expected_acl_direction": "in",
+    "actual_acl_direction": "out",
+    "known_correct_answer": "ACL is applied in the wrong direction."
+  },
+
+  {
+    "case_id": "C026",
+    "category": "NAT",
+    "symptom": "Internal PCs cannot access the internet using their private addresses.",
+    "topology_notes": "Private LAN addresses should be translated before reaching the ISP.",
+    "show_commands_output": "show ip nat translations\nPro Inside global Inside local Outside local Outside global\nNo translations",
+    "known_correct_answer": "NAT configuration is missing."
+  },
+  {
+    "case_id": "C027",
+    "category": "NAT",
+    "symptom": "NAT translations are not being created.",
+    "topology_notes": "GigabitEthernet0/0 is the LAN side and GigabitEthernet0/1 is the ISP side.",
+    "show_commands_output": "show ip interface\nGigabitEthernet0/0\nip nat outside\nGigabitEthernet0/1\nip nat inside",
+    "expected_inside": "GigabitEthernet0/0",
+    "expected_outside": "GigabitEthernet0/1",
+    "known_correct_answer": "NAT inside and outside interfaces are reversed."
+  },
+  {
+    "case_id": "C028",
+    "category": "NAT",
+    "symptom": "Multiple internal users cannot share the public IP address.",
+    "topology_notes": "The router should use NAT overload for the internal LAN.",
+    "show_commands_output": "show running-config | include ip nat\nip nat inside source list 1 interface GigabitEthernet0/1",
+    "nat_overload": "missing",
+    "known_correct_answer": "NAT overload is missing."
+  },
+
+  {
+    "case_id": "C029",
+    "category": "WIRELESS",
+    "symptom": "Laptop cannot find the organization's wireless network.",
+    "topology_notes": "The configured wireless network name is CampusNet.",
+    "show_commands_output": "show wlan\nSSID: CampusNet-Guest",
+    "expected_ssid": "CampusNet",
+    "actual_ssid": "CampusNet-Guest",
+    "known_correct_answer": "Wireless SSID is incorrect."
+  },
+  {
+    "case_id": "C030",
+    "category": "WIRELESS",
+    "symptom": "Laptop sees the Wi-Fi network but cannot authenticate.",
+    "topology_notes": "The wireless network requires WPA2-PSK.",
+    "show_commands_output": "show wlan security\nSecurity: Open",
+    "expected_security": "WPA2-PSK",
+    "actual_security": "Open",
+    "known_correct_answer": "Wireless security configuration is incorrect."
+  },
+  {
+    "case_id": "C031",
+    "category": "WIRELESS",
+    "symptom": "Laptop connects to Wi-Fi but cannot access devices outside its local network.",
+    "topology_notes": "Wireless clients use the 192.168.50.0/24 network.",
+    "show_commands_output": "IP Address: 192.168.50.20\nSubnet Mask: 255.255.255.0\nDefault Gateway: 192.168.60.1",
+    "known_correct_answer": "Wireless client has an incorrect default gateway."
+  },
+  {
+    "case_id": "C032",
+    "category": "WIRELESS",
+    "symptom": "Laptop connects to the Wi-Fi SSID but does not receive an IP address.",
+    "topology_notes": "Wireless clients should receive addresses from the DHCP server.",
+    "show_commands_output": "show wlan clients\nClient: Laptop1\nIP Address: 0.0.0.0\nDHCP: Failed",
+    "known_correct_answer": "Wireless DHCP assignment is failing."
+  }
+]
