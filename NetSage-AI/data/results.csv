@@ -1,2 +1,0 @@
-timestamp,case_id,symptom,ai_root_cause,ai_confidence,rule_findings,comparison,ai_evaluation,evaluation_category,human_review,review_reason
-2026-08-19T02:34:04,C001,PC gets an IP address but cannot reach the server.,Insufficient VLAN configuration or VLAN not enabled on the interface,0.6,"VLAN mismatch: expected VLAN 10, actual VLAN 20",AGREEMENT,CORRECT,vlan,ACCEPTED,
