@@ -1,0 +1,9 @@
+[
+  {"id":"BK-1042","title":"The Design of Everyday Things","author":"Don Norman","category":"Design","isbn":"9780465050659","copies":6,"available":4,"shelf":"D-02","addedAt":"2026-10-10"},
+  {"id":"BK-1043","title":"Atomic Habits","author":"James Clear","category":"Personal Growth","isbn":"9780735211292","copies":8,"available":5,"shelf":"P-01","addedAt":"2026-10-11"},
+  {"id":"BK-1044","title":"Clean Code","author":"Robert C. Martin","category":"Technology","isbn":"9780132350884","copies":5,"available":2,"shelf":"T-04","addedAt":"2026-10-12"},
+  {"id":"BK-1045","title":"The Alchemist","author":"Paulo Coelho","category":"Fiction","isbn":"9780062315007","copies":7,"available":7,"shelf":"F-03","addedAt":"2026-10-14"},
+  {"id":"BK-1046","title":"Deep Work","author":"Cal Newport","category":"Personal Growth","isbn":"9781455586691","copies":4,"available":1,"shelf":"P-02","addedAt":"2026-10-15"},
+  {"id":"BK-1047","title":"Introduction to Algorithms","author":"Thomas H. Cormen","category":"Technology","isbn":"9780262046305","copies":3,"available":0,"shelf":"T-01","addedAt":"2026-10-16"},
+  {"id":"BK-1048","title":"Ikigai","author":"Héctor García","category":"Personal Growth","isbn":"9780143130727","copies":9,"available":8,"shelf":"P-03","addedAt":"2026-10-18"}
+]
