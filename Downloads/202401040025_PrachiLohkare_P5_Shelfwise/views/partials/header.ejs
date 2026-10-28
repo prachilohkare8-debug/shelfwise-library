@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f0">
+  <title><%= title %> · Shelfwise</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/js/app.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/books" aria-label="Shelfwise home"><span class="brand-mark">s.</span><span>Shelfwise<small>LIBRARY DESK</small></span></a>
+  <nav class="topnav"><a class="<%= currentPath === '/books' ? 'active' : '' %>" href="/books">Collection</a><a href="/books/new" class="nav-add"><span>＋</span> Add a book</a></nav>
+</header>
+<main class="page-shell">
